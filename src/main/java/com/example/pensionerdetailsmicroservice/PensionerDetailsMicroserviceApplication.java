@@ -12,11 +12,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.ResourceLoader;
 
 import javax.transaction.Transactional;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -30,6 +32,8 @@ public class PensionerDetailsMicroserviceApplication implements CommandLineRunne
     PensionerDetailsRepo pensionerDetailsRepo;
 
     @Autowired
+    private ResourceLoader resourceloader;
+    @Autowired
     BankDetailsRepo bankDetailsRepo;
 
     public static void main(String[] args) {
@@ -39,7 +43,7 @@ public class PensionerDetailsMicroserviceApplication implements CommandLineRunne
 
     @Override
     public void run(String... args) throws Exception {
-        BufferedReader reader = new BufferedReader(new FileReader(new ClassPathResource("pensionerdata.csv").getFile()));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(resourceloader.getResource("classpath:pensionerdata.csv").getInputStream()));
         String line = reader.readLine();
         while(line!=null){
             String[] lineSplit = line.split(",");
