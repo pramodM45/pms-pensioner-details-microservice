@@ -1,0 +1,10 @@
+version: 0.0
+Resources:
+  - TargetService:
+      Type: AWS::ECS::Service
+      Properties:
+        TaskDefinition: "arn:aws:ecs:ap-south-1:860061945305:task-definition/pms-pramo-pensioner-details-service:5"
+        LoadBalancerInfo:
+          ContainerName: "pramo-pensioner-details-microservice"
+          ContainerPort: 8081
+        PlatformVersion: "LATEST"
